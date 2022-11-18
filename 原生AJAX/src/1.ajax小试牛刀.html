@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ajax小试牛刀</title>
+    <style>
+      #content {
+        border: 1px solid black;
+        width: 300px;
+        height: 100px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>该页面是测试:ajax小试牛刀</h1>
+    <button id="btn">点我发送请求(原生js-ajax-get)</button>
+    <div id="content"></div>
+    <script>
+      const btn = document.querySelector('#btn')
+      const content = document.querySelector('#content')
+      btn.onclick = () => {
+        // 创建xhr实例对象
+        const xhr = new XMLHttpRequest()
+        // 监听xhr的状态
+        /*
+            0:初始状态---创建实例那一刻
+            1:open已经调用,send未调用,此时可以修改请求头
+            2:send已调用,请求已发出
+            3:部分数据已经回来,请求头和小数据在此阶段一次性接受完毕
+            4:数据全部接收完毕
+        */
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+            content.innerHTML = `<h3>${xhr.response}<h3>`
+          }
+          if (xhr.readyState === 1) {
+            //配置请求头
+            xhr.setRequestHeader('demo', 123)
+          }
+          if (xhr.readyState === 3) {
+            console.log('@@@', xhr.response)
+            console.log('@@@', xhr.getAllResponseHeaders())
+          }
+        }
+        // 指定请求
+        xhr.open('GET', 'http://127.0.0.1:8080/test_get')
+        // 发送请求
+        xhr.send()
+      }
+    </script>
+  </body>
+</html>
