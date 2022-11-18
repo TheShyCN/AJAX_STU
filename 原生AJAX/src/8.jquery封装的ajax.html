@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>jquery封装的ajax</title>
+    <style>
+      #content {
+        border: 1px solid black;
+        width: 300px;
+        height: 150px;
+        margin-top: 10px;
+      }
+    </style>
+    <script src="./js/jquery.min.js"></script>
+  </head>
+  <body>
+    <h3>该页面是测试:jquery封装的ajax</h3>
+    <button id="btn1">点我发送请求(jquery-ajax-get)</button>
+    <button id="btn2">点我发送请求(jquery-ajax-post)</button>
+    <div id="content"></div>
+  </body>
+  <script>
+    $('#btn1').click(() => {
+      //get请求完整版
+      /*       $.ajax({
+        url: 'http://127.0.0.1:8080/test_jquery_get_person',
+        method: 'GET',
+        data: { name: 'zhh' }, //携带数据
+        dataType: 'json', // xhr.responseType
+        //请求成功的回调
+        success: (result, responseText, xhr) => {
+          console.log(result, responseText)
+          $('#content').append(
+            `<p>姓名:${result.name};</p><p>年龄:${result.age}</p><p>性别${result.sex}</p>`,
+          )
+        },
+        //请求失败或超时的回调
+        error: (xhr) => {
+          console.log('请检查网络连接情况', xhr)
+        },
+      }) */
+      //get请求精简版
+      $.get(
+        //请求地址
+        'http://127.0.0.1:8080/test_jquery_get_person',
+        //携带数据
+        { name: 'zhh' },
+        //成功回调
+        (data) => {
+          const { name, age, sex } = data
+          $('#content').append(
+            `<p>姓名:${name};</p><p>年龄:${age}</p><p>性别${sex}</p>`,
+          )
+        },
+        'json',
+      )
+    })
+
+    $('#btn2').click(() => {
+      //post请求完整版
+      /*       $.ajax({
+        url: 'http://127.0.0.1:8080/test_jquery_post',
+        method: 'POST',
+        data: { name: 'zhh' }, //携带数据
+        //请求成功的回调
+        success: (result, responseText, xhr) => {
+          console.log(result, responseText)
+          $('#content').append(`<p>${result}</p>`)
+        },
+        //请求失败或超时的回调
+        error: (xhr) => {
+          console.log('请检查网络连接情况', xhr)
+        },
+      }) */
+      //post请求精简版
+      $.post(
+        //请求地址
+        'http://127.0.0.1:8080/test_jquery_post',
+        //携带数据
+        { name: 'riven' },
+        //成功回调
+        (data) => {
+          const { name, age, sex } = data
+          $('#content').append(`<p>姓名:${data}</p>`)
+        },
+      )
+    })
+  </script>
+</html>
