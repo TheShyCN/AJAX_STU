@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ajax_请求异常与超时处理</title>
+    <style>
+      #content {
+        border: 1px solid black;
+        width: 300px;
+        height: 100px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>该页面是测试:ajax_请求异常与超时处理</h3>
+    <button id="btn">点我发送请求(原生js-ajax-get)</button>
+    <div id="content"></div>
+    <script>
+      const btn = document.querySelector('#btn')
+      const content = document.querySelector('#content')
+      btn.onclick = () => {
+        const xhr = new XMLHttpRequest()
+
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
+            const { name, age } = xhr.response
+            content.innerHTML = `
+            <ul>
+                <li>姓名:${name}</li>
+                <li>年龄:${age}</li>
+            <ul>
+            `
+          }
+        }
+        // xhr.open('GET', 'http://127.0.0.1:8080/get_person')
+        xhr.open('GET', 'http://127.0.0.1:8080/get_person_delay')
+        //用于指定返回数据的格式
+        xhr.responseType = 'json' //自动解析
+
+        //出错的回调
+        xhr.onerror = () => {
+          content.innerHTML = `<h3>当前网络不稳定,请稍后再试<h3>`
+        }
+
+        //超时时间
+        xhr.timeout = 2000
+        //超时的回调
+        xhr.ontimeout = () => {
+          content.innerHTML = `<h3>当前网速过慢,请切换网络重试<h3>`
+        }
+
+        xhr.send()
+      }
+    </script>
+  </body>
+</html>

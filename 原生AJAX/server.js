@@ -21,6 +21,18 @@ app.get("/test_get/:name/:age", (req, res) => {
   res.send("hello, get!");
 });
 
+app.get("/get_person", (req, res) => {
+  const person = { name: "zhh", age: 21 };
+  res.send(JSON.stringify(person));
+});
+
+app.get("/get_person_delay", (req, res) => {
+  const person = { name: "zhh", age: 21 };
+  setTimeout(() => {
+    res.send(JSON.stringify(person));
+  }, 3000);
+});
+
 app.post("/test_post", (req, res) => {
   //   console.log("query参数:", req.query);
   console.log("请求体参数:", req.body);
