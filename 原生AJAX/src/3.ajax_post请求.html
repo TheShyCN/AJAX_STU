@@ -34,16 +34,16 @@
         // xhr.open('POST', 'http://127.0.0.1:8080/test_post/riven/18') //params参数
         xhr.open('POST', 'http://127.0.0.1:8080/test_post')
         // 说明请求体携带urlencoded形式的参数
-        // xhr.setRequestHeader(
-        //   'Content-type',
-        //   'application/x-www-form-urlencoded',
-        // )
+        xhr.setRequestHeader(
+          'Content-type',
+          'application/x-www-form-urlencoded',
+        )
         // 说明请求体携带json形式的参数
-        xhr.setRequestHeader('Content-type', 'application/json')
+        // xhr.setRequestHeader('Content-type', 'application/json')
         // 发送请求
-        // xhr.send('name=riven&age=18') //请求体参数
-        const person = { name: 'Riven', age: 18 }
-        xhr.send(JSON.stringify(person))
+        xhr.send('name=riven&age=18') //请求体参数
+        // const person = { name: 'Riven', age: 18 }
+        // xhr.send(JSON.stringify(person))
       }
     </script>
   </body>

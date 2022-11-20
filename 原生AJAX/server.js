@@ -1,10 +1,14 @@
 const express = require("express");
 
 const app = express();
+//解决跨域请求
+const cors = require("cors");
+app.use(cors());
 
 // 使用解析urlencoded形式的请求体参数的中间件
 app.use(express.urlencoded({ extended: true }));
-
+// 使用解析json形式的请求体参数的中间件
+// app.use(express.json());
 app.disable("x-powered-by");
 
 // 暴露静态资源
@@ -52,6 +56,15 @@ app.get("/test_jquery_get_person", (req, res) => {
 app.post("/test_jquery_post", (req, res) => {
   console.log("请求体参数:", req.body);
   res.send("jquery的post请求");
+});
+
+app.get("/get_person_jsonp", (req, res) => {
+  const { callback } = req.query;
+  const person = [
+    { name: "zhh", age: 21 },
+    { name: "Riven", age: 21 },
+  ];
+  res.send(`${callback}(${JSON.stringify(person)})`);
 });
 
 app.listen(8080, (err) => {
